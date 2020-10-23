@@ -29,6 +29,7 @@ class LoginAPIController extends Controller
         $validator = Validator::make($loginData, [
             'email' => ['required', 'string'],
             'password' => ['required', 'string'],
+            'remember_me' => ['required', 'boolean']
         ]);
 
         if ($validator->fails()) {
