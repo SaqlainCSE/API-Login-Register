@@ -36,4 +36,14 @@ abstract class ApiController extends Controller
             'errors' => $errors
         ], 500);
     }
+
+
+    public function responseUnprocessable($errors)
+    {
+        return response()->json([
+            'status' => 422,
+            'message' => 'Invalid Input',
+            'errors' => $errors,
+        ], 422);
+    }
 }

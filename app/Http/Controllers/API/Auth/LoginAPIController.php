@@ -32,10 +32,7 @@ class LoginAPIController extends Controller
         ]);
 
         if ($validator->fails()) {
-            return response()->json([
-                'success' => false,
-                'errors' => $validator->getMessageBag(),
-            ]);
+            return $this->responseUnprocessable();
         }
 
         if (!Auth::attempt($loginData)) {
