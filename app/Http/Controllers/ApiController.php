@@ -23,11 +23,12 @@ abstract class ApiController extends Controller
     {
         return response()->json([
             'status' => 401,
+            'message' => 'Unauthorized',
             'errors' => $errors,
         ], 401);
     }
 
-    
+
     public function responseServerError($errors = ['Server error.'])
     {
         return response()->json([

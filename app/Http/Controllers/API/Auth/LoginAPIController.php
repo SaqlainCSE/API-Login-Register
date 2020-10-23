@@ -14,12 +14,12 @@ class LoginAPIController extends Controller
     public function createToken()
     {
         $user = User::first();
-        $accessToken = $user->createToken('Token Name')->accessToken;
+        $access_Token = $user->createToken('Token Name')->access_Token;
         return response()->json([
             'success' => true,
             'message' => 'User Details',
             'data' => $user,
-            'accessToken' => $accessToken,
+            'access_Token' => $access_Token,
         ], 200);
     }
 
@@ -29,9 +29,6 @@ class LoginAPIController extends Controller
         $validator = Validator::make($loginData, [
             'email' => ['required', 'string'],
             'password' => ['required', 'string'],
-        ], [
-            'email.required' => 'Please give your email!',
-            'password.required' => 'Please give your password!',
         ]);
 
         if ($validator->fails()) {
@@ -42,20 +39,18 @@ class LoginAPIController extends Controller
         }
 
         if (!Auth::attempt($loginData)) {
-            return response()->json([
-                'success' => false,
-                'message' => 'Invalid login!',
-                'data' => $loginData,
-            ], 404);
-        } else {
+            return $this->responseUnauthorized();
+        }
+
+        else {
             $user = User::find(Auth::user()->id);
-            $accessToken = $user->createToken('authToken')->accessToken;
+            $access_Token = $user->createToken('authToken')->access_Token;
             return response()->json([
                 'success' => true,
                 'message' => 'Login Successful!',
                 'data' => [
                     'user' => $user,
-                    'accessToken' => $accessToken
+                    'access_Token' => $access_Token
                 ],
             ], 200);
         }

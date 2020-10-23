@@ -14,7 +14,7 @@ class AuthController extends Controller
         $user = User::find(Auth::user()->id);
         return response()->json([
             'success' => true,
-            'message' => 'authenticated user details fetched',
+            'message' => 'authenticated user',
             'data' => $user,
         ], 200);
     }
