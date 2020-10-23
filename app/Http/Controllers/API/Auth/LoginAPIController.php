@@ -33,7 +33,7 @@ class LoginAPIController extends Controller
         ]);
 
         if ($validator->fails()) {
-            return $this->responseUnprocessable();
+            return $this->responseUnprocessable($validator->errors());
         }
 
         if (!Auth::attempt($loginData)) {

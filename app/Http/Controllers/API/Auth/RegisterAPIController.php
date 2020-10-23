@@ -7,9 +7,12 @@ use App\Models\Profile;
 use App\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Foundation\Auth\RegistersUsers;
+use Illuminate\Support\Facades\Hash;
 
 class RegisterAPIController extends Controller
 {
+    
     public function register(Request $request)
     {
         $loginData = $request->all();
@@ -17,38 +20,49 @@ class RegisterAPIController extends Controller
             'name' => ['required', 'string', 'unique:users'],
             'email' => ['required', 'string', 'email', 'unique:users'],
             'password' => ['required', 'string', 'confirmed'],
-        ], [
-            'name.required' => 'Please give your username!',
-            'password.required' => 'Please give your password!',
-            'email.required' => 'Please give your email!',
-            'email.email' => 'Give a valid email address!',
-            'email.unique' => 'Email has been used!',
-            'name.unique' => 'Username has been used!',
-
         ]);
 
         if ($validator->fails()) {
-            return response()->json([
-                'success' => false,
-                'errors' => $validator->getMessageBag(),
-            ]);
+            return $this->responseUnprocessable($validator->errors());
         }
 
-        $user = new User();
-        $user->name = $request->name;
-        $user->email = $request->email;
-        $user->password = $request->password;
-        $user->save();
 
-        $user = User::find($user->id);
-        $accessToken = $user->createToken('authToken')->accessToken;
+        try {
+            $user = $this->create($request->all());
+            return $this->responseSuccess('Registered successfully.');
+        }
+        catch (Exception $e) {
+            return $this->responseServerError('Registration error.');
+        }
 
-        return response()->json([
-            'success' => true,
-            'message' => 'Registration Successful!',
-            'data' => ['user' => $user, 'accessToken' => $accessToken],
-        ], 200);
     }
+
+    protected function create(array $data)
+    {
+        return User::create([
+            'name' => $data['name'],
+            'email' => $data['email'],
+            'password' => Hash::make($data['password']),
+        ]);
+    }
+
+
+        // $user = new User();
+        // $user->name = $request->name;
+        // $user->email = $request->email;
+        // $user->password = $request->password;
+        // $user->save();
+
+        // $user = User::find($user->id);
+
+        // return response()->json([
+        //     'success' => true,
+        //     'message' => 'Registration Successful!',
+
+        // ], 200);
+
+
+
 
 
 //     public function register(Request $request)
