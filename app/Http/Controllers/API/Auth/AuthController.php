@@ -12,9 +12,13 @@ class AuthController extends Controller
     public function auth_user()
     {
         $user = User::find(Auth::user()->id);
+
+        if (!Auth::attempt($user)) {
+            return $this->responseUnauthorized();
+        }
         return response()->json([
             'success' => true,
-            'message' => 'authenticated user',
+            'message' => 'Authenticated user',
             'data' => $user,
         ], 200);
     }
