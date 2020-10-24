@@ -2,17 +2,20 @@
 
 namespace App\Http\Controllers\API\Auth;
 
-use App\Http\Controllers\Controller;
-use App\Models\Profile;
+
 use App\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
-use Illuminate\Foundation\Auth\RegistersUsers;
-use Illuminate\Support\Facades\Hash;
 
-class RegisterAPIController extends Controller
+use Illuminate\Support\Facades\Hash;
+use App\Http\Controllers\ApiController;
+
+class RegisterAPIController extends ApiController
 {
-    
+
+
+
+
     public function register(Request $request)
     {
         $loginData = $request->all();

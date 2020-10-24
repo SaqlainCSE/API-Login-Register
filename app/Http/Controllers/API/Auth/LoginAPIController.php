@@ -7,9 +7,10 @@ use App\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
+use App\Http\Controllers\ApiController;
 use Carbon\Carbon;
 
-class LoginAPIController extends Controller
+class LoginAPIController extends ApiController
 {
     public function createToken()
     {
