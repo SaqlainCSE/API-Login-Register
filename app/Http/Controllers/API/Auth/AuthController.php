@@ -13,7 +13,7 @@ class AuthController extends Controller
     {
         $user = User::find(Auth::user()->id);
 
-        if (!Auth::attempt($user)) {
+        if ($user==null) {
             return $this->responseUnauthorized();
         }
         return response()->json([
