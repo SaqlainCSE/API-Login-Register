@@ -6,9 +6,9 @@ namespace App\Http\Controllers\API\Auth;
 use App\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
-
 use Illuminate\Support\Facades\Hash;
 use App\Http\Controllers\ApiController;
+Use Exception;
 
 class RegisterAPIController extends ApiController
 {
